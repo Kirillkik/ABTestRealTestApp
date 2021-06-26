@@ -2,6 +2,7 @@
 using ABTestRealTestApp.Models;
 using ABTestRealTestApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,20 @@ namespace ABTestRealTestApp.Web.Controllers
             }
             userRepository.DeleteUser(user);
             return Ok(user);
+        }
+
+        [HttpPost("update")]
+        public IActionResult Update(string users)
+        {
+            if (users == null)
+            {
+                return Ok();
+            }
+            UserForTable[] usersForTable = JsonConvert.DeserializeObject<UserForTable[]>(users);
+            userRepository.UpdateUsers(usersForTable.Select(x => new User(x.Id, 
+                                                                          DateTime.Parse(x.RegistrationDate),
+                                                                          DateTime.Parse(x.LastActivityDate))).ToArray());
+            return Ok(usersForTable);
         }
     }
 }

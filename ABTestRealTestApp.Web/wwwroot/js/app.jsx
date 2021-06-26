@@ -45,6 +45,7 @@ class UsersList extends React.Component {
     constructor(props) {
         super(props);
         this.state = { users: [] };
+        this.onSubmit = this.onSubmit.bind(this);
         this.onRemoveUser = this.onRemoveUser.bind(this);
         this.onAddUser = this.onAddUser.bind(this);
     }
@@ -88,6 +89,24 @@ class UsersList extends React.Component {
             }
         }.bind(this);
         xhr.send();
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+        var data = new FormData();
+        data.append("Users", JSON.stringify(this.state.users));
+
+        var url = this.props.apiUrl + "/update";
+
+        fetch(url,
+            {
+                method: "POST",
+                body: data
+            }).
+            then(response => response.text())
+            .then(data => {
+                this.setState({ text: data, loading: false });
+            });
     }
 
     render() {
