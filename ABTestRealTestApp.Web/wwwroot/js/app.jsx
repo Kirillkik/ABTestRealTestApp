@@ -3,13 +3,35 @@
     constructor(props) {
         super(props);
         this.state = { data: props.user };
+       
     }
+
+    handleRegistrationDateChanged(event) {
+        var item = this.state.data;
+
+        item.registrationDate = event.target.value;
+
+        this.setState({
+            data: item
+        });
+    }
+
+    handleLastActivityDateChanged(event) {
+        var item = this.state.data;
+
+        item.lastActivityDate = event.target.value;
+
+        this.setState({
+            data: item
+        });
+    }
+
     render() {
-        return <div>
-            <p><b>{this.state.data.id}</b></p>
-            <p>Дата {this.state.data.registrationDate}</p>
-            <p>Дата {this.state.data.lastActivityDate}</p>
-        </div>;
+        return <tr>
+            <td>{this.state.data.id}</td>
+            <td><input type="text" value={this.state.data.registrationDate} onChange={this.handleRegistrationDateChanged.bind(this)} /></td>
+            <td><input type="text" value={this.state.data.lastActivityDate} onChange={this.handleLastActivityDateChanged.bind(this)} /></td>
+        </tr>;
     }
 }
 
@@ -29,21 +51,23 @@ class UsersList extends React.Component {
         }.bind(this);
         xhr.send();
     }
+
     componentDidMount() {
         this.loadData();
     }
+
     render() {
 
         return <div>
             <h2>Список пользователей</h2>
-            <div>
+            <table border = "1">
                 {
                     this.state.users.map(function (user) {
 
                         return <User key={user.id} user={user} />
                     })
                 }
-            </div>
+            </table>
         </div>;
     }
 }

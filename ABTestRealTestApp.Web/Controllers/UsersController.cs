@@ -1,5 +1,6 @@
 ﻿using ABTestRealTestApp.Interfaces;
 using ABTestRealTestApp.Models;
+using ABTestRealTestApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,11 @@ namespace ABTestRealTestApp.Web.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<UserForTable> Get()
         {
-            return userRepository.GetAllUsers();
+            return userRepository.GetAllUsers().Select(x => new UserForTable(x.Id,
+                                                                             x.RegistrationDate.Date.ToShortDateString(),
+                                                                             x.LastActivityDate.Date.ToShortDateString()));
         }
     }
 }
