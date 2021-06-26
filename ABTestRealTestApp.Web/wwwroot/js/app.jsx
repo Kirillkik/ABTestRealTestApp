@@ -48,6 +48,7 @@ class UsersList extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onRemoveUser = this.onRemoveUser.bind(this);
         this.onAddUser = this.onAddUser.bind(this);
+        this.onCalculate = this.onCalculate.bind(this);
     }
     // загрузка данных
     loadData() {
@@ -109,6 +110,30 @@ class UsersList extends React.Component {
             });
     }
 
+    onCalculate() {
+        var url = this.props.apiUrl + "/durationoflifehistogram";
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", url, true);
+        xhr.onload = function () {
+            var data = JSON.parse(xhr.responseText);
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "light2",
+                animationEnabled: true,
+                title: {
+                    text: "Calculated Info"
+                },
+                data: [
+                    {
+                        type: "column",
+                        dataPoints: data,
+                    }
+                ]
+            });
+            chart.render();
+        }.bind(this);
+        xhr.send();
+    }
+
     render() {
         var remove = this.onRemoveUser;
         return <div>
@@ -126,11 +151,14 @@ class UsersList extends React.Component {
                         })
                     }
                 </table>
-                <br/>
-                <input type="submit" value="Сохранить" />
+                <br />
+                <input type="button" value="AddRow" onClick={this.onAddUser} />
+                <br />
+                <input type="submit" value="Save" />
             </form>
             <br />
-            <input type="button" value="Добавить строку" onClick={this.onAddUser} />
+            <input type="button" value="Calculate" onClick={this.onCalculate} />
+            <br />
         </div>;
     }
 }

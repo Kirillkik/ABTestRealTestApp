@@ -1,5 +1,6 @@
 ﻿using ABTestRealTestApp.Interfaces;
 using ABTestRealTestApp.Models;
+using ABTestRealTestApp.Services;
 using ABTestRealTestApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -59,6 +60,15 @@ namespace ABTestRealTestApp.Web.Controllers
                                                                           DateTime.Parse(x.RegistrationDate),
                                                                           DateTime.Parse(x.LastActivityDate))).ToArray());
             return Ok(usersForTable);
+        }
+
+        [HttpGet("durationoflifehistogram")]
+        public IEnumerable<DataPoint> GetDurationOfLifeHistogramm()
+        {
+            var a = new UsersService(userRepository);
+            var b = a.GetUsersLifeTimeDuration();
+            List<DataPoint> dataPoints = b.Select(x => new DataPoint(x.Key, x.Value)).ToList();
+            return dataPoints;
         }
     }
 }
