@@ -3,7 +3,11 @@
     constructor(props) {
         super(props);
         this.state = { data: props.user };
-       
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick(e) {
+        this.props.onRemove(this.state.data);
     }
 
     handleRegistrationDateChanged(event) {
@@ -31,6 +35,7 @@
             <td>{this.state.data.id}</td>
             <td><input type="text" value={this.state.data.registrationDate} onChange={this.handleRegistrationDateChanged.bind(this)} /></td>
             <td><input type="text" value={this.state.data.lastActivityDate} onChange={this.handleLastActivityDateChanged.bind(this)} /></td>
+            <td><input type="button" value="Удалить" onClick={this.onClick} /></td>
         </tr>;
     }
 }
@@ -40,6 +45,7 @@ class UsersList extends React.Component {
     constructor(props) {
         super(props);
         this.state = { users: [] };
+        this.onRemoveUser = this.onRemoveUser.bind(this);
     }
     // загрузка данных
     loadData() {
@@ -56,18 +62,44 @@ class UsersList extends React.Component {
         this.loadData();
     }
 
-    render() {
+    onRemoveUser(user) {
+        if (user) {
+            var url = this.props.apiUrl + "/" + user.id;
 
+            var xhr = new XMLHttpRequest();
+            xhr.open("delete", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    this.loadData();
+                }
+            }.bind(this);
+            xhr.send();
+        }
+    }
+
+    render() {
+        var remove = this.onRemoveUser;
         return <div>
             <h2>Список пользователей</h2>
-            <table border = "1">
-                {
-                    this.state.users.map(function (user) {
-
-                        return <User key={user.id} user={user} />
-                    })
-                }
-            </table>
+            <form onSubmit={this.onSubmit}>
+                <table>
+                    <tr>
+                        <th>Id</th>
+                        <th>Registaration Date</th>
+                        <th>Last Activity Date</th>
+                    </tr>
+                    {
+                        this.state.users.map(function (user) {
+                            return <User key={user.id} user={user} onRemove={remove} />
+                        })
+                    }
+                </table>
+                <br/>
+                <input type="submit" value="Сохранить" />
+            </form>
+            <br/>
+            <input type="button" value="Добавить строку" />
         </div>;
     }
 }

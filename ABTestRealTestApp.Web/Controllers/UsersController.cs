@@ -25,5 +25,17 @@ namespace ABTestRealTestApp.Web.Controllers
                                                                              x.RegistrationDate.Date.ToShortDateString(),
                                                                              x.LastActivityDate.Date.ToShortDateString()));
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            User user = userRepository.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            userRepository.DeleteUser(user);
+            return Ok(user);
+        }
     }
 }

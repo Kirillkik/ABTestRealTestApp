@@ -7,8 +7,10 @@ namespace ABTestRealTestApp.Interfaces
 {
     public interface IUserRepository
     {
+        User GetUserById(int id);
         User[] GetAllUsers();
         void AddUser(User user);
         void AddUsers(User[] users);
+        void DeleteUser(User user);
     }
 }

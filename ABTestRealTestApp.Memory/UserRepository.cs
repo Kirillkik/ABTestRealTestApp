@@ -2,6 +2,7 @@
 using ABTestRealTestApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ABTestRealTestApp.Memory
@@ -25,9 +26,19 @@ namespace ABTestRealTestApp.Memory
             Users.AddRange(users);
         }
 
+        public void DeleteUser(User user)
+        {
+            Users.Remove(user);
+        }
+
         public User[] GetAllUsers()
         {
             return Users.ToArray();
+        }
+
+        public User GetUserById(int id)
+        {
+            return Users.FirstOrDefault(x => x.Id == id);
         }
     }
 }
