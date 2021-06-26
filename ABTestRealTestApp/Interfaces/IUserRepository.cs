@@ -10,7 +10,6 @@ namespace ABTestRealTestApp.Interfaces
         User GetUserById(int id);
         User[] GetAllUsers();
         void AddUser(User user);
-        void AddUsers(User[] users);
         void DeleteUser(User user);
     }
 }

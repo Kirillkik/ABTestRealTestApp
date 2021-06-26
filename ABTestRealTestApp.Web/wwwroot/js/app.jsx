@@ -46,6 +46,7 @@ class UsersList extends React.Component {
         super(props);
         this.state = { users: [] };
         this.onRemoveUser = this.onRemoveUser.bind(this);
+        this.onAddUser = this.onAddUser.bind(this);
     }
     // загрузка данных
     loadData() {
@@ -78,6 +79,17 @@ class UsersList extends React.Component {
         }
     }
 
+    onAddUser(user) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", this.props.apiUrl, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                this.loadData();
+            }
+        }.bind(this);
+        xhr.send();
+    }
+
     render() {
         var remove = this.onRemoveUser;
         return <div>
@@ -98,8 +110,8 @@ class UsersList extends React.Component {
                 <br/>
                 <input type="submit" value="Сохранить" />
             </form>
-            <br/>
-            <input type="button" value="Добавить строку" />
+            <br />
+            <input type="button" value="Добавить строку" onClick={this.onAddUser} />
         </div>;
     }
 }

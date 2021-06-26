@@ -18,12 +18,8 @@ namespace ABTestRealTestApp.Memory
 
         public void AddUser(User user)
         {
+            user.Id = Users.Last().Id + 1;
             Users.Add(user);
-        }
-
-        public void AddUsers(User[] users)
-        {
-            Users.AddRange(users);
         }
 
         public void DeleteUser(User user)

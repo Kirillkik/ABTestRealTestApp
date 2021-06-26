@@ -26,6 +26,14 @@ namespace ABTestRealTestApp.Web.Controllers
                                                                              x.LastActivityDate.Date.ToShortDateString()));
         }
 
+        [HttpPost]
+        public IActionResult Post()
+        {
+            var user = new User(0, DateTime.Now, DateTime.Now);
+            userRepository.AddUser(user);
+            return Ok(user);
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
