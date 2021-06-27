@@ -1,5 +1,6 @@
 using ABTestRealTestApp.Interfaces;
 using ABTestRealTestApp.Memory;
+using ABTestRealTestApp.Web.Binders;
 using JavaScriptEngineSwitcher.ChakraCore;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +27,7 @@ namespace ABTestRealTestApp.Web
             services.AddReact();
             services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
 
+            services.AddMvc(config => config.ModelBinderProviders.Insert(0, new UserForTableBinderProvider()));
             services.AddControllers();
 
             services.AddSingleton<IUserRepository, UserRepository>();

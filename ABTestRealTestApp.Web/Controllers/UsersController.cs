@@ -49,17 +49,16 @@ namespace ABTestRealTestApp.Web.Controllers
         }
 
         [HttpPost("update")]
-        public IActionResult Update(string users)
+        public IActionResult Update(UserForTable[] users)
         {
-            if (users == null)
+            if (!ModelState.IsValid)
             {
-                return Ok();
+                return BadRequest("Invalid data format");
             }
-            UserForTable[] usersForTable = JsonConvert.DeserializeObject<UserForTable[]>(users);
-            userRepository.UpdateUsers(usersForTable.Select(x => new User(x.Id, 
-                                                                          DateTime.Parse(x.RegistrationDate),
-                                                                          DateTime.Parse(x.LastActivityDate))).ToArray());
-            return Ok(usersForTable);
+            userRepository.UpdateUsers(users.Select(x => new User(x.Id,
+                                                                  DateTime.Parse(x.RegistrationDate),
+                                                                  DateTime.Parse(x.LastActivityDate))).ToArray());
+            return Ok("Data saved");
         }
 
         [HttpGet("durationoflifehistogram")]

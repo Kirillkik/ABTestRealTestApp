@@ -44,7 +44,7 @@ class UsersList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { users: [], rollingRetentionSevenDay: ""};
+        this.state = { users: [], rollingRetentionSevenDay: "", validateMessage: ""};
         this.onSubmit = this.onSubmit.bind(this);
         this.onRemoveUser = this.onRemoveUser.bind(this);
         this.onAddUser = this.onAddUser.bind(this);
@@ -106,7 +106,7 @@ class UsersList extends React.Component {
             }).
             then(response => response.text())
             .then(data => {
-                this.setState({ text: data, loading: false });
+                this.setState({ text: data, loading: false, validateMessage: data });
             });
     }
 
@@ -170,6 +170,7 @@ class UsersList extends React.Component {
                 <br />
                 <input type="button" value="AddRow" onClick={this.onAddUser} />
                 <br />
+                <p>{this.state.validateMessage}</p>
                 <input type="submit" value="Save" />
             </form>
             <br />
