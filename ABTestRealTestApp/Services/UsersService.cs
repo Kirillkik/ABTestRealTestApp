@@ -13,6 +13,20 @@ namespace ABTestRealTestApp.Services
             this.userRepository = userRepository;
         }
 
+        public double GetRollingRetentionXDay(int xDay)
+        {
+            double retutnUsersNumber = 0;
+            double installAppUsersNumber = 0;
+            var users = userRepository.GetAllUsers();
+            foreach (var user in users)
+            {
+                if ((user.LastActivityDate - user.RegistrationDate).TotalDays >= xDay) retutnUsersNumber++;
+                if ((DateTime.Now - user.RegistrationDate).Days <= xDay) installAppUsersNumber++;
+            }
+            var result = retutnUsersNumber / installAppUsersNumber * 100;
+            return double.IsInfinity(result) ? 99 : result;
+        }
+
         public Dictionary<int, int> GetUsersLifeTimeDuration()
         {
             Dictionary<int, int> dataPoints = new Dictionary<int, int>();

@@ -65,10 +65,18 @@ namespace ABTestRealTestApp.Web.Controllers
         [HttpGet("durationoflifehistogram")]
         public IEnumerable<DataPoint> GetDurationOfLifeHistogramm()
         {
-            var a = new UsersService(userRepository);
-            var b = a.GetUsersLifeTimeDuration();
-            List<DataPoint> dataPoints = b.Select(x => new DataPoint(x.Key, x.Value)).ToList();
+            var usersService = new UsersService(userRepository);
+            var usersLifeTimeDuration = usersService.GetUsersLifeTimeDuration();
+            List<DataPoint> dataPoints = usersLifeTimeDuration.Select(x => new DataPoint(x.Key, x.Value)).ToList();
             return dataPoints;
+        }
+
+        [HttpGet("getrollingretentionsevenday")]
+        public double GetRollingRetentionSevenDay()
+        {
+            var usersService = new UsersService(userRepository);
+            var rollingRetentionSevenDay = usersService.GetRollingRetentionXDay(7);
+            return  rollingRetentionSevenDay;
         }
     }
 }

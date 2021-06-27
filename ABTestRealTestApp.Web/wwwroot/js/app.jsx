@@ -44,7 +44,7 @@ class UsersList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { users: [] };
+        this.state = { users: [], rollingRetentionSevenDay: ""};
         this.onSubmit = this.onSubmit.bind(this);
         this.onRemoveUser = this.onRemoveUser.bind(this);
         this.onAddUser = this.onAddUser.bind(this);
@@ -111,6 +111,11 @@ class UsersList extends React.Component {
     }
 
     onCalculate() {
+        this.loadDurationOfLifeHistogram();
+        this.loadRollingRetentionSevenDay();
+    }
+
+    loadDurationOfLifeHistogram() {
         var url = this.props.apiUrl + "/durationoflifehistogram";
         var xhr = new XMLHttpRequest();
         xhr.open("get", url, true);
@@ -120,7 +125,7 @@ class UsersList extends React.Component {
                 theme: "light2",
                 animationEnabled: true,
                 title: {
-                    text: "Calculated Info"
+                    text: "Duration of life histogram"
                 },
                 data: [
                     {
@@ -130,6 +135,17 @@ class UsersList extends React.Component {
                 ]
             });
             chart.render();
+        }.bind(this);
+        xhr.send();
+    }
+
+    loadRollingRetentionSevenDay() {
+        var url = this.props.apiUrl + "/getrollingretentionsevenday";
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", url, true);
+        xhr.onload = function () {
+            var data = "Rolling Retention Seven Day: " + JSON.parse(xhr.responseText) + "%";
+            this.setState({ rollingRetentionSevenDay: data });
         }.bind(this);
         xhr.send();
     }
@@ -159,6 +175,7 @@ class UsersList extends React.Component {
             <br />
             <input type="button" value="Calculate" onClick={this.onCalculate} />
             <br />
+            <p>{this.state.rollingRetentionSevenDay}</p>
         </div>;
     }
 }
