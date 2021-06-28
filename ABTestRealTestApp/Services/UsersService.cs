@@ -24,7 +24,7 @@ namespace ABTestRealTestApp.Services
                 if ((DateTime.Now - user.RegistrationDate).Days <= xDay) installAppUsersNumber++;
             }
             var result = retutnUsersNumber / installAppUsersNumber * 100;
-            return double.IsInfinity(result) ? 99 : result;
+            return double.IsInfinity(result) ? 0 : result;
         }
 
         public Dictionary<int, int> GetUsersLifeTimeDuration()

@@ -31,12 +31,12 @@
     }
 
     render() {
-        return <tr>
-            <td>{this.state.data.id}</td>
-            <td><input type="text" value={this.state.data.registrationDate} onChange={this.handleRegistrationDateChanged.bind(this)} /></td>
-            <td><input type="text" value={this.state.data.lastActivityDate} onChange={this.handleLastActivityDateChanged.bind(this)} /></td>
-            <td><input type="button" value="Удалить" onClick={this.onClick} /></td>
-        </tr>;
+        return <div class="row">
+            <div class="cell">{this.state.data.id}</div>
+            <div class="cell"><input type="text" value={this.state.data.registrationDate} onChange={this.handleRegistrationDateChanged.bind(this)} /></div>
+            <div class="cell"><input type="text" value={this.state.data.lastActivityDate} onChange={this.handleLastActivityDateChanged.bind(this)} /></div>
+            <div class="cell"><input class="tButton" type="button" value="Delete" onClick={this.onClick} /></div>
+        </div>;
     }
 }
 
@@ -153,30 +153,34 @@ class UsersList extends React.Component {
     render() {
         var remove = this.onRemoveUser;
         return <div>
-            <h2>Список пользователей</h2>
             <form onSubmit={this.onSubmit}>
-                <table>
-                    <tr>
-                        <th>Id</th>
-                        <th>Registaration Date</th>
-                        <th>Last Activity Date</th>
-                    </tr>
-                    {
-                        this.state.users.map(function (user) {
-                            return <User key={user.id} user={user} onRemove={remove} />
-                        })
-                    }
-                </table>
+                <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table">
+                        <div class="row header">
+                            <div class="cell">Id</div>
+                            <div class="cell">Registaration Date</div>
+                            <div class="cell">Last Activity Date</div>
+                            <div class="cell"></div>
+                        </div>
+                        {
+                            this.state.users.map(function (user) {
+                                return <User key={user.id} user={user} onRemove={remove} />
+                            })
+                        }
+                    </div>
+                </div>
+                </div>
                 <br />
-                <input type="button" value="AddRow" onClick={this.onAddUser} />
-                <br />
-                <p>{this.state.validateMessage}</p>
-                <input type="submit" value="Save" />
+                <p class="validateText">{this.state.validateMessage}</p>
+                <div class="buttonBox">
+                    <input class="button" type="button" value="AddRow" onClick={this.onAddUser} />
+                    <input class="button" type="submit" value="Save" />
+                    <input class="button" type="button" value="Calculate" onClick={this.onCalculate} />
+                </div>
             </form>
             <br />
-            <input type="button" value="Calculate" onClick={this.onCalculate} />
-            <br />
-            <p>{this.state.rollingRetentionSevenDay}</p>
+            <p class="rollingRetentionText">{this.state.rollingRetentionSevenDay}</p>
         </div>;
     }
 }
