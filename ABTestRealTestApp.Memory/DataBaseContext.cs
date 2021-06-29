@@ -12,7 +12,7 @@ namespace ABTestRealTestApp.Memory
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=ec2-54-155-226-153.eu-west-1.compute.amazonaws.com;Port=5432;Database=d5eq1qihhq1qn5;Username=hzbqqkwbltarhw;Password=fbcc46e0c7fed98fa174d948099426fca5ea79a020b58180b59fbac4d6499f5f; TrustServerCertificate = true; SslMode = Require; ");
+            optionsBuilder.UseNpgsql("Uid=postgres;Pwd=Rbhbkk9105.;Host=34.142.36.147; Database=ABTestRealTestApp-fe1316f5-48e2-4739-ae44-eccbe217ab10 ");
         }
     }
 }

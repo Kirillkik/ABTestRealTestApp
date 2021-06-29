@@ -24,8 +24,8 @@ namespace ABTestRealTestApp.Web.Controllers
         public IEnumerable<UserForTable> Get()
         {
             return userRepository.GetAllUsers().Select(x => new UserForTable(x.Id,
-                                                                             x.RegistrationDate.Date.ToShortDateString(),
-                                                                             x.LastActivityDate.Date.ToShortDateString()));
+                                                                             x.RegistrationDate.Date.ToString("dd-MM-yyyy"),
+                                                                             x.LastActivityDate.Date.ToString("dd-MM-yyyy")));
         }
 
         [HttpPost]
@@ -56,8 +56,8 @@ namespace ABTestRealTestApp.Web.Controllers
                 return BadRequest("Invalid data format");
             }
             userRepository.UpdateUsers(users.Select(x => new User(x.Id,
-                                                                  DateTime.Parse(x.RegistrationDate),
-                                                                  DateTime.Parse(x.LastActivityDate))).ToArray());
+                                                                  DateTime.ParseExact(x.RegistrationDate, "dd-MM-yyyy", null),
+                                                                  DateTime.ParseExact(x.LastActivityDate, "dd-MM-yyyy", null))).ToArray());
             return Ok("Data saved");
         }
 
