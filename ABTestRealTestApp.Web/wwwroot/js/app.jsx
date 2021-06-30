@@ -93,7 +93,6 @@ class UsersList extends React.Component {
     }
 
     onSubmit(e) {
-        e.preventDefault();
         var data = new FormData();
         data.append("Users", JSON.stringify(this.state.users));
 
@@ -144,7 +143,7 @@ class UsersList extends React.Component {
         var xhr = new XMLHttpRequest();
         xhr.open("get", url, true);
         xhr.onload = function () {
-            var data = "Rolling Retention Seven Day: " + JSON.parse(xhr.responseText) + "%";
+            var data = "Rolling Retention 7 day: " + JSON.parse(xhr.responseText) + "%";
             this.setState({ rollingRetentionSevenDay: data });
         }.bind(this);
         xhr.send();

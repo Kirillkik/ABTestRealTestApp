@@ -20,8 +20,8 @@ namespace ABTestRealTestApp.Services
             var users = userRepository.GetAllUsers();
             foreach (var user in users)
             {
-                if ((user.LastActivityDate - user.RegistrationDate).TotalDays >= xDay) retutnUsersNumber++;
-                if ((DateTime.Now - user.RegistrationDate).Days <= xDay) installAppUsersNumber++;
+                if ((DateTime.Now - user.LastActivityDate).TotalDays >= 0) retutnUsersNumber++;
+                if ((DateTime.Now - user.RegistrationDate).TotalDays <= xDay) installAppUsersNumber++;
             }
             var result = retutnUsersNumber / installAppUsersNumber * 100;
             return double.IsInfinity(result) ? 0 : result;
